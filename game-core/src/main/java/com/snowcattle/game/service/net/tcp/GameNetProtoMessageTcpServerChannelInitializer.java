@@ -34,7 +34,7 @@ public class GameNetProtoMessageTcpServerChannelInitializer extends ChannelIniti
 
         ChannelPipeline channelPipLine = nioSocketChannel.pipeline();
         int maxLength = Integer.MAX_VALUE;
-        channelPipLine.addLast("frame", new LengthFieldBasedFrameDecoder(maxLength, 2, 4, 0, 0));
+        //channelPipLine.addLast("frame", new LengthFieldBasedFrameDecoder(maxLength, 2, 4, 0, 0));
         channelPipLine.addLast("encoder", new NetProtoBufMessageTCPEncoder());
         channelPipLine.addLast("decoder", new NetProtoBufMessageTCPDecoder());
 //        int readerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_READ_TIMEOUT;

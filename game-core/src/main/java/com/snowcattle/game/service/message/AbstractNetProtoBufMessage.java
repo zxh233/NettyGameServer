@@ -12,8 +12,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public abstract  class AbstractNetProtoBufMessage extends AbstractNetMessage {
 
     public AbstractNetProtoBufMessage(){
-        setNetMessageHead(new NetMessageHead());
-        setNetMessageBody(new NetMessageBody());
+        super();
     }
 
     protected void initHeadCmd(){
@@ -42,7 +41,7 @@ public abstract  class AbstractNetProtoBufMessage extends AbstractNetMessage {
     @Override
     public String toString()
     {
-        return getClass().getSimpleName() + ": commandId=" + getNetMessageHead().getCmd();
+        return getClass().getSimpleName() ;
     }
 
     public String toAllInfoString(){

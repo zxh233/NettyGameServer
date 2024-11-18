@@ -2,6 +2,8 @@ package com.snowcattle.game.service.message.facade;
 
 import com.snowcattle.game.common.exception.GameHandlerException;
 import com.snowcattle.game.service.message.AbstractNetMessage;
+import com.snowcattle.game.service.net.tcp.session.NettySession;
+import com.snowcattle.game.service.net.tcp.session.NettyTcpSession;
 
 /**
  * Created by jiangwenping on 17/2/8.

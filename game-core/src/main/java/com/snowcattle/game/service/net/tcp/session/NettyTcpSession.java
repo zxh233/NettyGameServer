@@ -16,6 +16,10 @@ public class NettyTcpSession extends NettySession implements IUpdatable {
 
     private final long sessionId;
 
+    private boolean needDecode;
+
+    private KDJLTcpSession kdjlTcpSession;
+
     /**
      * 消息发送
      */
@@ -43,6 +47,8 @@ public class NettyTcpSession extends NettySession implements IUpdatable {
         nettyTcpNetMessageSender = new NettyTcpNetMessageSender(this);
         netProtoBufMessageProcess = new NetProtoBufMessageProcess(this);
         tcpNetStateUpdate = new TcpNetStateUpdate();
+        kdjlTcpSession = new KDJLTcpSession(hashCode()+"");
+        needDecode = false;
     }
 
     public NettyTcpNetMessageSender getNettyTcpNetMessageSender() {
@@ -85,7 +91,7 @@ public class NettyTcpSession extends NettySession implements IUpdatable {
         this.netProtoBufMessageProcess.addNetMessage(abstractNetMessage);
     }
 
-    public long getSessionId() {
+    public long                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    getSessionId() {
         return sessionId;
     }
 
@@ -110,5 +116,21 @@ public class NettyTcpSession extends NettySession implements IUpdatable {
 
     public void setNetMessageProcessSwitch(boolean netMessageProcessSwitch) {
         this.netMessageProcessSwitch = netMessageProcessSwitch;
+    }
+
+    public boolean isNeedDecode() {
+        return needDecode;
+    }
+
+    public void setNeedDecode(boolean needDecode) {
+        this.needDecode = needDecode;
+    }
+
+    public KDJLTcpSession getKdjlTcpSession() {
+        return kdjlTcpSession;
+    }
+
+    public void setKdjlTcpSession(KDJLTcpSession kdjlTcpSession) {
+        this.kdjlTcpSession = kdjlTcpSession;
     }
 }

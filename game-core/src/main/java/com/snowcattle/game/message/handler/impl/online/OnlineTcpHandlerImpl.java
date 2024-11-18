@@ -1,18 +1,27 @@
 package com.snowcattle.game.message.handler.impl.online;
 
+import com.snowcattle.game.bootstrap.GamerServerStartFinishedService;
 import com.snowcattle.game.common.annotation.MessageCommandAnnotation;
 import com.snowcattle.game.common.constant.Loggers;
+import com.snowcattle.game.common.exception.NetMessageException;
 import com.snowcattle.game.logic.player.GamePlayer;
 import com.snowcattle.game.bootstrap.manager.LocalMananger;
 import com.snowcattle.game.message.handler.AbstractMessageHandler;
 import com.snowcattle.game.message.logic.tcp.online.client.OnlineLoginClientTcpMessage;
 import com.snowcattle.game.message.logic.tcp.online.server.OnlineLoginServerTcpMessage;
 import com.snowcattle.game.service.lookup.GamePlayerLoopUpService;
+import com.snowcattle.game.service.message.InMessageUtil;
+import com.snowcattle.game.service.message.KDJLNetMessage;
+import com.snowcattle.game.service.message.OutMessageUtil;
+import com.snowcattle.game.service.message.bean.KDJLStringData;
 import com.snowcattle.game.service.net.tcp.MessageAttributeEnum;
 import com.snowcattle.game.service.message.AbstractNetMessage;
 import com.snowcattle.game.service.message.command.MessageCommandIndex;
+import com.snowcattle.game.service.net.tcp.session.KDJLTcpSession;
 import com.snowcattle.game.service.net.tcp.session.NettyTcpSession;
 
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -38,4 +47,67 @@ public class OnlineTcpHandlerImpl extends AbstractMessageHandler {
         gamePlayerLoopUpService.addT(gamePlayer);
         return onlineLoginServerTcpMessage;
     }
+
+
+    @MessageCommandAnnotation(command = InMessageUtil.CommandConstants.LOGIN)
+    public AbstractNetMessage login(AbstractNetMessage message) {
+        if (message instanceof KDJLNetMessage) {
+            NettyTcpSession nettyTcpSession = (NettyTcpSession) message.getAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            message.removeAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            KDJLNetMessage kdjlNetMessage = (KDJLNetMessage) message;
+            System.out.println(kdjlNetMessage.getInCmdData());
+            KDJLNetMessage kdjlNetMessage1 = new KDJLNetMessage();
+            kdjlNetMessage1.setOutBtytes(OutMessageUtil.generateOut(message, nettyTcpSession, null, null, null, null, Arrays.asList(new KDJLStringData("<cid>" + nettyTcpSession.getKdjlTcpSession().getCid()),new KDJLStringData("<newacc>123456:123456"),new KDJLStringData("<r>charset|[1]53:菁裆哈哈红红火火恍恍惚惚|[2]53:好果汁|[3]54:太宋豪侠"))));
+            nettyTcpSession.getKdjlTcpSession().setGAME_STEP(KDJLTcpSession.LOGINSTEP.SEL_PLAYER);
+            return kdjlNetMessage1;
+        }
+        return null;
+    }
+
+    @MessageCommandAnnotation(command = InMessageUtil.CommandConstants.NOMAL_DEAL)
+    public AbstractNetMessage deal(AbstractNetMessage message) {
+        if (message instanceof KDJLNetMessage) {
+            NettyTcpSession nettyTcpSession = (NettyTcpSession) message.getAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            message.removeAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            KDJLNetMessage kdjlNetMessage = (KDJLNetMessage) message;
+            System.out.println(kdjlNetMessage.getInCmdData());
+            KDJLNetMessage kdjlNetMessage1 = new KDJLNetMessage();
+            kdjlNetMessage1.setOutBtytes(OutMessageUtil.generateOut(message, nettyTcpSession, null, null, null, null, Arrays.asList(new KDJLStringData("<cid>" + nettyTcpSession.getKdjlTcpSession().getCid()),new KDJLStringData("<newacc>123456:123456"),new KDJLStringData("<r>charset|[1]53:菁裆哈哈红红火火恍恍惚惚|[2]53:好果汁|[3]54:太宋豪侠"))));
+            nettyTcpSession.getKdjlTcpSession().setGAME_STEP(KDJLTcpSession.LOGINSTEP.SEL_PLAYER);
+            return kdjlNetMessage1;
+        }
+        return null;
+    }
+
+    @MessageCommandAnnotation(command = InMessageUtil.CommandConstants.NEW_LOGIN)
+    public AbstractNetMessage newLogin(AbstractNetMessage message) {
+        if (message instanceof KDJLNetMessage) {
+            NettyTcpSession nettyTcpSession = (NettyTcpSession) message.getAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            message.removeAttribute(MessageAttributeEnum.DISPATCH_SESSION);
+            KDJLNetMessage kdjlNetMessage = (KDJLNetMessage) message;
+            System.out.println(kdjlNetMessage.getInCmdData());
+            KDJLNetMessage kdjlNetMessage1 = new KDJLNetMessage();
+            //kdjlNetMessage1.setOutBtytes(OutMessageUtil.generateOut(message, nettyTcpSession, null, null, null, null, Arrays.asList(new KDJLStringData("<cid>uHaq3Eg7VaNk1JEF2L"),new KDJLStringData("<!--TROODONMARK-->"),new KDJLStringData("<newproxy>#6_192.168.5.161:7090|s192.168.5.161:7090|s192.168.5.161:7090|s192.168.5.161:7090|h192.168.5.161:7090:5926"),new KDJLStringData("<cache>borough:<menu(g:a)(b)(sr:11000100)(line:333333,0,0,0,0,0,0,0)>选择服务器|[1p2j0#6]卡车镇( \u001B3新开\u001B0 )"))));
+            try {
+                nettyTcpSession.close();
+            } catch (NetMessageException e) {
+                throw new RuntimeException(e);
+            }
+//            GamerServerStartFinishedService gamerServerStartFinishedService = LocalMananger.getInstance().get(GamerServerStartFinishedService.class);
+//            gamerServerStartFinishedService.getThreadPool().addDelayTask(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        nettyTcpSession.close();
+//                    } catch (NetMessageException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }, 100, TimeUnit.MILLISECONDS);
+            return null;
+        }
+        return null;
+    }
+
+
 }

@@ -36,16 +36,16 @@ public abstract class AbstractGameNetMessageTcpServerHandler extends ChannelInbo
         NettyTcpSession nettyTcpSession = (NettyTcpSession) nettyTcpSessionBuilder.buildSession(ctx.channel());
         NetTcpSessionLoopUpService netTcpSessionLoopUpService = LocalMananger.getInstance().getLocalSpringServiceManager().getNetTcpSessionLoopUpService();
         boolean flag = netTcpSessionLoopUpService.addNettySession(nettyTcpSession);
-        if(!flag){
-            //被限制不能加入
-            TcpMessageFactory messageFactory = LocalMananger.getInstance().getLocalSpringBeanManager().getTcpMessageFactory();
-            AbstractNetMessage abstractNetMessage = messageFactory.createCommonErrorResponseMessage(-1, GameHandlerException.COMMON_ERROR_MAX_CONNECT_TCP_SESSION_NUMBER);
-            nettyTcpSession.write(abstractNetMessage);
-            nettyTcpSession.close();
-            ctx.close();
-            return;
-
-        }
+//        if(!flag){
+//            //被限制不能加入
+//            TcpMessageFactory messageFactory = LocalMananger.getInstance().getLocalSpringBeanManager().getTcpMessageFactory();
+//            AbstractNetMessage abstractNetMessage = messageFactory.createCommonErrorResponseMessage(-1, GameHandlerException.COMMON_ERROR_MAX_CONNECT_TCP_SESSION_NUMBER);
+//            nettyTcpSession.write(abstractNetMessage);
+//            nettyTcpSession.close();
+//            ctx.close();
+//            return;
+//
+//        }
         addUpdateSession(nettyTcpSession);
 
         //生成aysnc事件

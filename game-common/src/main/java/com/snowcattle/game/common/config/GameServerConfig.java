@@ -22,7 +22,7 @@ public class GameServerConfig extends ServerConfig {
     /**
      * tpc消息是否进行转发，如果不转发直接进行异步处理，如果进行转发，按照具体功能进行转发
      */
-    private boolean tcpMessageQueueDirectDispatch=true;
+    private boolean tcpMessageQueueDirectDispatch=false;
     /** session过期失效 ，单位为秒 */
     private int sessionExpireTime = 30 * 60 * 1000;
 

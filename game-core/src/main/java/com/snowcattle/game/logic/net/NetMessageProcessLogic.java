@@ -42,7 +42,6 @@ public class NetMessageProcessLogic {
             AbstractNetProtoBufMessage respone;
             respone = (AbstractNetProtoBufMessage) gameFacade.dispatch(message);
             if(respone != null) {
-                respone.setSerial(message.getNetMessageHead().getSerial());
                 nettySession.write(respone);
             }
         } catch (Exception e) {

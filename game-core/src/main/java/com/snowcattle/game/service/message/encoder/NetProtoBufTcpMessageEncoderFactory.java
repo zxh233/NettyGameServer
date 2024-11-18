@@ -1,6 +1,7 @@
 package com.snowcattle.game.service.message.encoder;
 
 import com.snowcattle.game.service.message.AbstractNetProtoBufMessage;
+import com.snowcattle.game.service.message.KDJLNetMessage;
 import com.snowcattle.game.service.message.NetMessageBody;
 import com.snowcattle.game.service.message.NetMessageHead;
 import io.netty.buffer.ByteBuf;
@@ -15,28 +16,37 @@ public class NetProtoBufTcpMessageEncoderFactory implements INetProtoBufTcpMessa
 
     @Override
     public ByteBuf createByteBuf(AbstractNetProtoBufMessage netMessage) throws Exception {
-        ByteBuf byteBuf = Unpooled.buffer(256);
-        //编写head
-        NetMessageHead netMessageHead = netMessage.getNetMessageHead();
-        byteBuf.writeShort(netMessageHead.getHead());
-        //长度
-        byteBuf.writeInt(0);
-        //设置内容
-        byteBuf.writeByte(netMessageHead.getVersion());
-        byteBuf.writeShort(netMessageHead.getCmd());
-        byteBuf.writeInt(netMessageHead.getSerial());
-        //编写body
+        if (netMessage instanceof KDJLNetMessage){
+            int length = ((KDJLNetMessage) netMessage).getOutBtytes().length;
+            ByteBuf byteBuf = Unpooled.buffer(length+6);
+            byte[] head = getHead(length);
+            byteBuf.writeBytes(head);
+            getBody(((KDJLNetMessage) netMessage).getOutBtytes(),head[4]);
+            byteBuf.writeBytes(((KDJLNetMessage) netMessage).getOutBtytes());
+            return byteBuf;
+        }
+        return null;
+    }
 
-        netMessage.encodeNetProtoBufMessageBody();
-        NetMessageBody netMessageBody = netMessage.getNetMessageBody();
-        byteBuf.writeBytes(netMessageBody.getBytes());
+    private byte[] getHead(int len){
+        byte[] head = new byte[6];
+        head[0] = (byte) 0x7f;
+        head[1] = (byte) 0x7f;
+        head[2] = (byte) 0x7f;
+        head[3] = (byte) 0x7f;
+        int lenEncode = len^0xa5a5;
+        head[4] = (byte) (lenEncode & 0xff);
+        head[5] = (byte) ((lenEncode >> 8) & 0xff);
+        return head;
+    }
 
-        //重新设置长度
-        int skip = 6;
-        int length = byteBuf.readableBytes() - skip;
-        byteBuf.setInt(2, length);
-        byteBuf.slice();
-        return byteBuf;
+    private void getBody(byte[] bytes,byte byte0){
+        if (bytes!=null&&bytes.length>0){
+            for (int i = 0; i < bytes.length; i++) {
+                bytes[i] ^= byte0;
+                byte0 = bytes[i];
+            }
+        }
     }
 }
 
