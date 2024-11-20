@@ -11,6 +11,7 @@ public class InMessageUtil {
         public static final int LOGIN = 2000;
         public static final int NEW_LOGIN = 2001;
         public static final int NOMAL_DEAL = 2002;
+        public static final int SEL_PLAYER = 2003;
     }
 
 
@@ -20,6 +21,9 @@ public class InMessageUtil {
         }
         if (Pattern.compile(".*#maps 60.*").matcher(kdjlNetMessage.getInCmdData()).find()){
             return CommandConstants.LOGIN;
+        }
+        if (kdjlNetMessage.getInCmdData().contains("sel")){
+            return CommandConstants.SEL_PLAYER;
         }
         return CommandConstants.NOMAL_DEAL;
     }

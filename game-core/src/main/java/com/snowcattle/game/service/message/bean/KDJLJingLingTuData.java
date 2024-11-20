@@ -6,20 +6,20 @@ package com.snowcattle.game.service.message.bean;
  * 方法O000OO
  */
 public class KDJLJingLingTuData {
-    private String jingLingName;
+    private int jingLingId;
     private byte[] jingLingData;
 
-    public KDJLJingLingTuData(String jingLingName, byte[] jingLingData) {
-        this.jingLingName = jingLingName;
+    public KDJLJingLingTuData(int jingLingId, byte[] jingLingData) {
+        this.jingLingId = jingLingId;
         this.jingLingData = jingLingData;
     }
 
-    public String getJingLingName() {
-        return jingLingName;
+    public int getJingLingId() {
+        return jingLingId;
     }
 
-    public void setJingLingName(String jingLingName) {
-        this.jingLingName = jingLingName;
+    public void setJingLingId(int jingLingId) {
+        this.jingLingId = jingLingId;
     }
 
     public byte[] getJingLingData() {
