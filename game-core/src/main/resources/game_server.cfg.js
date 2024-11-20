@@ -10,7 +10,7 @@ config.language="zh_CN";
 config.i18nDir="i18n";
 config.gameId="shoot";
 config.developModel= 1;
-config.tcpMessageQueueDirectDispatch=true;
+config.tcpMessageQueueDirectDispatch=false;
 /**gameexcutor配置***/
 config.gameExcutorCorePoolSize=2;
 config.gameExcutorKeepAliveTime=60;
@@ -43,10 +43,4 @@ config.asyncEventQueueSize=65536;
 config.asyncEventWorkSize=2;
 config.asyncEventHandlerThreadSize=60;
 config.asyncEventHandleQueueSize=65536;
-/*tcp服务器异常时候关闭session标志*/
-config.exceptionCloseSessionFlag=true;
-/*最大tcpsession链接数量*/
-config.maxTcpSessionNumber=20000;
-/*websock模式启用ssl*/
-config.webSockectSSLFlag=true;
-
+config.maxTcpSessionNumber = 50;

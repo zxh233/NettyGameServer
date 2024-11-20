@@ -6,6 +6,7 @@ import com.snowcattle.game.common.util.ErrorsUtil;
 import com.snowcattle.game.bootstrap.manager.LocalMananger;
 import com.snowcattle.game.service.message.AbstractNetMessage;
 import com.snowcattle.game.service.message.AbstractNetProtoBufMessage;
+import com.snowcattle.game.service.message.KDJLNetMessage;
 import com.snowcattle.game.service.message.encoder.NetProtoBufHttpMessageEncoderFactory;
 import com.snowcattle.game.service.message.encoder.NetProtoBufTcpMessageEncoderFactory;
 import com.snowcattle.game.service.message.facade.GameFacade;
@@ -68,9 +69,11 @@ public class NetMessageProcessLogic {
                 // 特例，统计时间跨度
                 long time = (System.nanoTime() - begin) / (1000 * 1000);
                 if (time > 1) {
-                    statLog.info("#CORE.MSG.PROCESS.STATICS Message id:"
-                            + message.getNetMessageHead().getCmd() + " Time:"
-                            + time + "ms");
+                    if (message instanceof KDJLNetMessage){
+                        statLog.info("#CORE.MSG.PROCESS.STATICS Message id:"
+                                + message.getCmd() + " Time:"
+                                + time + "ms");
+                    }
                 }
             }
 
