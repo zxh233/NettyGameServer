@@ -41,9 +41,11 @@ public class OutMessageUtil {
                     byteArrayOutputStream.write(0);
                     byteArrayOutputStream.write(126);
                     byteArrayOutputStream.write(imageData1.getImageName().getBytes());
+                    byteArrayOutputStream.write(0);
                     int len = imageData1.getImageData().length;
                     byteArrayOutputStream.write(len & 0xff);
                     byteArrayOutputStream.write((len >> 8) & 0xff);
+                    byteArrayOutputStream.write(imageData1.getImageData());
                 }
             }
 

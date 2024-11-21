@@ -42,13 +42,13 @@ public abstract class AbstractNettyTcpServerService extends AbstractNettyServerS
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap = serverBootstrap.group(bossGroup, workerGroup);
             serverBootstrap.channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    .option(ChannelOption.SO_BACKLOG, 1024)// 可连接等待队列大小
                     .childOption(ChannelOption.SO_REUSEADDR, true) //重用地址
-                    .childOption(ChannelOption.SO_RCVBUF, 65536)
-                    .childOption(ChannelOption.SO_SNDBUF, 65536)
-                    .childOption(ChannelOption.TCP_NODELAY, true)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .childOption(ChannelOption.ALLOCATOR, new PooledByteBufAllocator(false))  // heap buf 's better
+                    .childOption(ChannelOption.SO_RCVBUF, 65536)// 操作系统接收区缓存大小
+                    .childOption(ChannelOption.SO_SNDBUF, 65536)// 操作系统发送区缓存大小
+                    .childOption(ChannelOption.TCP_NODELAY, true)// 不延迟发送，有数据立即发送，不等数据满
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)// 保持连接
+                    .childOption(ChannelOption.ALLOCATOR, new PooledByteBufAllocator(false))  // heap buf 's better 在堆上分配ByteBuf
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(channelInitializer);
 
