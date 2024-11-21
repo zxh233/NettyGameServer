@@ -7,6 +7,7 @@ import com.snowcattle.game.service.message.AbstractNetProtoBufMessage;
 import com.snowcattle.game.service.message.NetHttpMessageHead;
 import com.snowcattle.game.service.message.NetProtoBufMessageBody;
 import com.snowcattle.game.service.message.registry.MessageRegistry;
+import com.snowcattle.game.service.net.tcp.session.NettySession;
 import io.netty.buffer.ByteBuf;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +60,10 @@ public class NetProtoBufHttpMessageDecoderFactory implements INetProtoBufHttpMes
         }
 
         return netMessage;
+    }
+
+    @Override
+    public AbstractNetProtoBufMessage praseMessage(ByteBuf byteBuf, NettySession nettySession) throws CodecException {
+        return null;
     }
 }

@@ -9,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.util.CharsetUtil;
+import io.netty.util.ReferenceCountUtil;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -48,7 +49,7 @@ public class NetProtoBufMessageTCPDecoder extends MessageToMessageDecoder<ByteBu
             if (!nettySession.isNeedDecode()){
                 parseNotDecodeMessage(ctx, msg, out, nettySession);
             }else{
-                AbstractNetProtoBufMessage abstractNetProtoBufMessage = iNetMessageDecoderFactory.praseMessage(msg);
+                AbstractNetProtoBufMessage abstractNetProtoBufMessage = iNetMessageDecoderFactory.praseMessage(msg,nettySession);
                 if (abstractNetProtoBufMessage != null) {
                     out.add(abstractNetProtoBufMessage);
                 }
@@ -63,10 +64,12 @@ public class NetProtoBufMessageTCPDecoder extends MessageToMessageDecoder<ByteBu
         if (message.contains("CONNECT")) {
             nettySession.getKdjlTcpSession().setServer(message.substring(8,11));
             nettySession.getKdjlTcpSession().setFenXian(message.substring(11));
+            ReferenceCountUtil.release(msg);
             return;
         }
         if (message.contains("kawa")) {
             nettySession.setNeedDecode(true);
+            ReferenceCountUtil.release(msg);
             return;
         }
     }

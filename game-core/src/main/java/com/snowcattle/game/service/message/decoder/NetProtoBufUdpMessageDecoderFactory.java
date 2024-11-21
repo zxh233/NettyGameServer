@@ -7,6 +7,7 @@ import com.snowcattle.game.common.exception.CodecException;
 import com.snowcattle.game.bootstrap.manager.LocalMananger;
 import com.snowcattle.game.service.message.NetUdpMessageHead;
 import com.snowcattle.game.service.message.registry.MessageRegistry;
+import com.snowcattle.game.service.net.tcp.session.NettySession;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,10 @@ public class NetProtoBufUdpMessageDecoderFactory implements INetProtoBufUdpMessa
         }
 
         return netMessage;
+    }
+
+    @Override
+    public AbstractNetProtoBufMessage praseMessage(ByteBuf byteBuf, NettySession nettySession) throws CodecException {
+        return null;
     }
 }

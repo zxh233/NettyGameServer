@@ -2,6 +2,7 @@ package com.snowcattle.game.service.message.decoder;
 
 import com.snowcattle.game.common.exception.CodecException;
 import com.snowcattle.game.service.message.AbstractNetProtoBufMessage;
+import com.snowcattle.game.service.net.tcp.session.NettySession;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -9,4 +10,5 @@ import io.netty.buffer.ByteBuf;
  */
 public interface INetProtoBufMessageDecoderFactory {
     public AbstractNetProtoBufMessage praseMessage(ByteBuf byteBuf) throws CodecException;
+    public AbstractNetProtoBufMessage praseMessage(ByteBuf byteBuf, NettySession nettySession) throws CodecException;
 }
