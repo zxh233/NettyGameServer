@@ -25,6 +25,7 @@ public class AsyncNettyGameNetMessageTcpServerHandler extends AbstractGameNetMes
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("work : "+Thread.currentThread().getId());
         AbstractNetProtoBufMessage netMessage = (AbstractNetProtoBufMessage) msg;
         Channel channel = ctx.channel();
         //直接进行处理

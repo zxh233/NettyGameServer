@@ -68,7 +68,6 @@
     <module>game-core</module>
     <module>game-db</module>
     <module>game-common</module>
-      <module>KDJL</module>
   </modules>
 
   <!-- define all dependencies version , submodule chooses on demands -->

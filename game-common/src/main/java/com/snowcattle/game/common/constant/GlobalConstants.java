@@ -156,11 +156,11 @@ public class GlobalConstants {
         /** 心跳间隔*/
         public static final int HEART_BASE_SIZE= 1;
         /** 心跳写时间超时(单位秒)*/
-        public static final int SESSION_HEART_WRITE_TIMEOUT= HEART_BASE_SIZE * 60;
-        /** 心跳写时间超时(单位秒)*/
+        public static final int SESSION_HEART_WRITE_TIMEOUT= HEART_BASE_SIZE * 0;
+        /** 心跳读时间超时(单位秒)*/
         public static final int SESSION_HEART_READ_TIMEOUT= HEART_BASE_SIZE * 60;
         /** 心跳读写时间超时(单位秒)*/
-        public static final int SESSION_HEART_ALL_TIMEOUT= HEART_BASE_SIZE * 60;
+        public static final int SESSION_HEART_ALL_TIMEOUT= HEART_BASE_SIZE * 0;
 
         private Net() {
         }

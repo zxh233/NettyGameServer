@@ -14,6 +14,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.timeout.IdleStateHandler;
 
@@ -34,20 +35,20 @@ public class GameNetProtoMessageTcpServerChannelInitializer extends ChannelIniti
 
         ChannelPipeline channelPipLine = nioSocketChannel.pipeline();
         int maxLength = Integer.MAX_VALUE;
-        //channelPipLine.addLast("frame", new LengthFieldBasedFrameDecoder(maxLength, 2, 4, 0, 0));
+        //channelPipLine.addLast("frame", new LineBasedFrameDecoder(512));//解决收包的粘包半包问题，kdjl客户端发送报文采用以“\n”分割，最大长度512，暂时不在这里处理，并且这个位置也是有问题的
         channelPipLine.addLast("encoder", new NetProtoBufMessageTCPEncoder());
         channelPipLine.addLast("decoder", new NetProtoBufMessageTCPDecoder());
 //        int readerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_READ_TIMEOUT;
 //        int writerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_WRITE_TIMEOUT;
-        int readerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_ALL_TIMEOUT;
-        int writerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_ALL_TIMEOUT;
+        int readerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_READ_TIMEOUT;
+        int writerIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_WRITE_TIMEOUT;
         int allIdleTimeSeconds = GlobalConstants.Net.SESSION_HEART_ALL_TIMEOUT;
         GameServerConfigService gameServerConfigService = LocalMananger.getInstance().getLocalSpringServiceManager().getGameServerConfigService();
         GameServerConfig gameServerConfig = gameServerConfigService.getGameServerConfig();
         if(gameServerConfig.isDevelopModel()) {
             channelPipLine.addLast("logger", new GameLoggingHandler(LogLevel.DEBUG));
         }
-        channelPipLine.addLast("idleStateHandler", new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds));
+        channelPipLine.addLast("idleStateHandler", new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds));//用于心跳机制检测超时，kdjl只需客户端发送心跳 writerIdleTimeSeconds allIdleTimeSeconds 都为0
 //        channelPipLine.addLast("logger", new LoggingHandler(LogLevel.DEBUG));
         boolean tcpMessageQueueDirectDispatch = gameServerConfigService.getGameServerConfig().isTcpMessageQueueDirectDispatch();
         if(tcpMessageQueueDirectDispatch) {

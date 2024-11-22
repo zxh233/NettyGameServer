@@ -42,6 +42,7 @@ public class NetProtoBufMessageTCPDecoder extends MessageToMessageDecoder<ByteBu
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
+        System.out.println("decode : "+Thread.currentThread().getId());
         long sessonId = ctx.channel().attr(NettyTcpSessionBuilder.channel_session_id).get();
         NetTcpSessionLoopUpService netTcpSessionLoopUpService = LocalMananger.getInstance().getLocalSpringServiceManager().getNetTcpSessionLoopUpService();
         NettyTcpSession nettySession = (NettyTcpSession) netTcpSessionLoopUpService.lookup(sessonId);
@@ -64,12 +65,12 @@ public class NetProtoBufMessageTCPDecoder extends MessageToMessageDecoder<ByteBu
         if (message.contains("CONNECT")) {
             nettySession.getKdjlTcpSession().setServer(message.substring(8,11));
             nettySession.getKdjlTcpSession().setFenXian(message.substring(11));
-            ReferenceCountUtil.release(msg);
+            //ReferenceCountUtil.release(msg);
             return;
         }
         if (message.contains("kawa")) {
             nettySession.setNeedDecode(true);
-            ReferenceCountUtil.release(msg);
+            //ReferenceCountUtil.release(msg);
             return;
         }
     }
